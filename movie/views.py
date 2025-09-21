@@ -27,7 +27,6 @@ class MovieHome(LoginRequiredMixin, DataMixin, ListView):
     context_object_name = 'posts'
 
 
-@login_required
 def about(request):
     about = ('Echoes of Cinema — приложение для управления своей киноколлекцией,'+' '
              'которое призвано отслеживать просмотренные фильмы и сериалы, а также планировать следующие просмотры.'+ ' '
