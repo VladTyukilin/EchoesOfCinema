@@ -25,15 +25,19 @@
 7. Запустите сервер: `python manage.py runserver`
 
 ## Запуск через Docker
-1. Соберите образ: `docker build -t echoesofcinema .`
-2. Запустите контейнер: `docker run -p 8000:8000 echoesofcinema`
-3. Перейдите в браузере по адресу: `http://localhost:8000`
+Убедьтесь, что Docker и Docker Compose установлены
+
+1. <путь клонирования проекта> (D:\EchoesOfCinema)
+2. git clone https://github.com/VladTyukilin/EchoesOfCinema.git
+3. cd <путь клонирования проекта>\EchoesOfCinema
+4. docker-compose up --build
+5. http://localhost:8000
 
 или
 
-1. Убедьтесь, что Docker и Docker Compose установлены
-2. Выполните:  
-   docker-compose up --build
+1. Соберите образ: `docker build -t echoesofcinema .`
+2. Запустите контейнер: `docker run -p 8000:8000 echoesofcinema`
+3. Перейдите в браузере по адресу: `http://localhost:8000`
 
 ## Настройка окружения
 1. Создайте файл `.env` на основе `.env.example` (если есть)
