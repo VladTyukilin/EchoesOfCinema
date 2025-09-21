@@ -1,9 +1,6 @@
 from django.test import TestCase
-
-# Create your tests here.
-from django.test import TestCase
 from django.contrib.auth import get_user_model
-from .models import Movie, Category
+from .models import Movie
 
 
 class MovieModelTest(TestCase):
@@ -12,19 +9,16 @@ class MovieModelTest(TestCase):
             username='testuser',
             password='testpass123'
         )
-        self.category = Category.objects.create(name='Test Category', slug='test-category')
 
     def test_create_movie(self):
         movie = Movie.objects.create(
             title='Test Movie',
             slug='test-movie',
             content='Test content',
-            cat=self.category,
             user=self.user
         )
         self.assertEqual(str(movie), 'Test Movie')
         self.assertEqual(Movie.objects.count(), 1)
-        self.assertEqual(movie.cat.name, 'Test Category')
 
 
 class MovieViewTest(TestCase):
@@ -33,21 +27,23 @@ class MovieViewTest(TestCase):
             username='testuser',
             password='testpass123'
         )
-        self.category = Category.objects.create(name='Test Category', slug='test-category')
         self.movie = Movie.objects.create(
             title='Test Movie',
             slug='test-movie',
             content='Test content',
-            cat=self.category,
             user=self.user
         )
 
     def test_home_page(self):
-        response = self.client.get('/')
+        # Авторизуем пользователя
+        self.client.login(username='testuser', password='testpass123')
+
+        response = self.client.get('')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Movie')
 
     def test_movie_detail(self):
+        self.client.login(username='testuser', password='testpass123')
         response = self.client.get(f'/post/{self.movie.slug}/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Movie')
