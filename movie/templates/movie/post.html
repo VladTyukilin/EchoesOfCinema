@@ -1,25 +1,27 @@
-{% extends 'movie/base.html' %}
-
-{% block breadcrumbs %}
-<!-- Теги -->
-{% with post.tags.all as tags %}
-{% if tags %}
-<ul class="tags-list">
-    <li>Теги:</li>
-    {% for t in tags %}
-    <li><a href="{{t.get_absolute_url}}">{{t.tag}}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>{{post.title}}</h1>
+    <h1>{{ movie.title }}</h1>
 
-{% if post.photo %}
-<p><img class="img-article-left" src="{{post.photo.url}}"></p>
-{% endif %}
+    <div class="movie-card">
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster">
+        {% else %}
+            <p><div class="movie-poster-placeholder">Нет постера</div></p>
+        {% endif %}
 
-{{post.content|linebreaks}}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.poster.id_for_label }}">Постер фильма:</label>
+                {{ form.poster }}
+                <button type="submit" class="btn btn-primary">Загрузить постер</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="movies-grid">
+        <p class="movie-description">{{ movie.content }}</p>
+    </div>
 {% endblock %}

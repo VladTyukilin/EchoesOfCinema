@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from users.forms import RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
-
+from django.shortcuts import redirect
 from .forms import LoginUserForm
 
 
@@ -14,6 +14,14 @@ class LoginUser(LoginView):
     form_class = LoginUserForm
     template_name = 'users/login.html'
     extra_context = {'title': 'Авторизация'}
+
+
+# class CustomLogoutView(LogoutView):
+#     def get(self, request, *args, **kwargs):
+#         return self.post(request, *args, **kwargs)
+#
+#     def get_success_url(self):
+#         return reverse_lazy('home')  # или settings.LOGOUT_REDIRECT_URL
 
 
 class RegisterUser(CreateView):
@@ -42,15 +50,3 @@ class UserPasswordChange(PasswordChangeView):
     success_url = reverse_lazy("users:password_change_done")
     template_name = "users/password_change_form.html"
     extra_context = {'title': "Изменение пароля"}
-
-# def register(request):
-#     if request.method == "POST":
-#         form = RegisterUserForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)  # создание объекта без сохранения в БД
-#             user.set_password(form.cleaned_data['password'])
-#             user.save()
-#             return render(request, 'users/register_done.html')
-#     else:
-#         form = RegisterUserForm()
-#     return render(request, 'users/register.html', {'form': form})

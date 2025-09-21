@@ -1,29 +1,38 @@
-{% extends 'movie/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
+    <h1>{{ title }}</h1>
 
-<ul class="list-articles">
-    {% for p in page_obj %}
-        <!-- отображение поста -->
-    {% endfor %}
-</ul>
+    <section class="hero">
+      <div class="container">
+        <h2>Добро пожаловать в Echoes of Cinema</h2>
+        <p>Отслеживайте фильмы и сериалы, которые вы хотите посмотреть.</p>
+      </div>
+    </section>
 
-{% if page_obj.has_other_pages %}
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-    {% endif %}
+    <div class="section">
+      <div class="container">
+        {% for movie in page_obj %}
+            <div class="movie-card">
+                <div class="movie-item">
+                    <!-- Мини-постер слева -->
+                    {% if movie.poster %}
+                        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster-thumb">
+                    {% else %}
+                        <div class="movie-poster-placeholder">Нет постера</div>
+                    {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <span class="current">{{ num }}</span>
-        {% else %}
-            <a href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
+                    <!-- Описание справа -->
+                    <div class="movie-content">
+                        <h3>{{ movie.title }}</h3>
+                        <p>{{ movie.content|truncatechars:100 }}</p>
+                        <a href="{% url 'post' movie.slug %}" class="btn">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
 
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-    {% endif %}
-</div>
-{% endif %}
+      </div>
+    </div>
 {% endblock %}

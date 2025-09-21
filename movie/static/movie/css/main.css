@@ -1,0 +1,295 @@
+/* Базовые стили */
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --light: #ecf0f1;
+    --dark: #2c3e50;
+}
+
+body {
+    background-image: url('../img/karta_mira.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: white;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    position: relative; /* Обязательно — чтобы псевдоэлемент работал */
+    min-height: 100vh;  /* Гарантируем высоту страницы */
+}
+
+body::before {
+    content: "";
+    position: fixed; /* Используем fixed, чтобы слой не скроллился */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Чёрный с 70% непрозрачностью */
+    z-index: -1; /* Слой под всем контентом, но над фоновым изображением */
+    pointer-events: none; /* Позволяет кликать по элементам под слоем */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Меню */
+.navbar {
+    background-color: var(--primary);
+    padding: 1px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* Центральное меню — по центру */
+.nav-menu-center {
+    display: flex;
+    list-style: none;
+    margin: 0 auto; /* auto сдвигает меню в центр */
+    padding: 0;
+    justify-content: center; /* Центрирование по содержимому */
+    font-size: 1.2rem;
+}
+
+.nav-menu-center li {
+    margin: 0 20px; /* Отступы между пунктами */
+}
+
+.nav-menu-center a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-menu-center a:hover {
+    color: var(--secondary);
+}
+
+
+/* Правое меню — справа */
+.nav-menu-right {
+    display: flex;
+    list-style: none;
+    margin-left: auto; /* Сдвигает блок вправо */
+    padding: 0;
+}
+
+.nav-menu-right li {
+    margin-left: 20px;
+}
+
+.nav-menu-right a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-menu-right a:hover {
+    color: var(--secondary);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+/* Дополнительные стили для контента */
+h1, h2, h3, h4, h5, h6 {
+  color: white; /* Цвет текста */
+  text-shadow: 1px 1px 0 #000,
+               -1px -1px 0 #000,
+               1px -1px 0 #000,
+               -1px 1px 0 #000; /* Черная обводка */
+}
+
+.movie-card {
+    background-color: rgba(200, 200, 200, 0.1); /* Белый с 5% непрозрачностью */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 0 #000,
+               -1px -1px 0 #000,
+               1px -1px 0 #000,
+               -1px 1px 0 #000; /* Черная обводка */
+    transition: all 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(5px);           /* Поднимаем карточку на 5px вниз */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Увеличиваем тень */
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;              /* Чуть больше стандартного */
+    font-weight: 600;
+    color: #3498db;               /* #5dade2 Бледно-синий цвет (#3498db — чуть насыщеннее) */
+    background-color: transparent;
+    text-decoration: none;        /* Убираем подчёркивание */
+    border: 1px solid #5dade2;    /* Тонкая рамка того же цвета */
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-shadow: 1px 1px 0 #000,
+               -1px -1px 0 #000,
+               1px -1px 0 #000,
+               -1px 1px 0 #000; /* Черная обводка */
+}
+
+/* При наведении — чуть ярче */
+.btn:hover {
+    color: #3498db;
+    border-color: #3498db;
+    background-color: rgba(93, 173, 226, 0.1);
+    text-shadow: 1px 1px 0 #000,
+               -1px -1px 0 #000,
+               1px -1px 0 #000,
+               -1px 1px 0 #000; /* Черная обводка */
+}
+
+
+.btn-logout {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit; /* Наследует шрифт и размер из родителя */
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.btn-logout:hover {
+    color: var(--secondary); /* Цвет при наведении, как у других пунктов меню */
+}
+
+
+/* Контейнер для постера и описания */
+.movie-item {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+/* Стиль для мини-постера */
+.movie-poster-thumb {
+    width: 100px;          /* Размер постера */
+    height: 140px;         /* Соотношение ~3:4 */
+    object-fit: cover;     /* Обрезает изображение, чтобы заполнить область */
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;        /* Не сжимается при нехватке места */
+}
+
+/* Блок с описанием — занимает всё оставшееся пространство */
+.movie-content {
+    flex: 1;
+    min-width: 0;          /* Позволяет truncate работать правильно */
+}
+
+
+.movie-poster {
+    width: 200px;          /* Фиксированная ширина */
+    height: 300px;         /* Высота (соотношение ~2:3) */
+    object-fit: cover;     /* Обрезает изображение, чтобы заполнить область */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+
+.list-pages {
+	text-align: center;
+	margin: 0 0 20px 0;
+}
+.list-pages ul {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+.list-pages ul li {
+	display: inline-block;
+	margin: 0 20px 0 0;
+}
+.list-pages a {
+	color: white;
+	font-size: 24px;
+	text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+	display: inline-flex;          /* Было: inline-block → теперь flex */
+    justify-content: center;       /* Центрирование по горизонтали */
+    align-items: center;           /* Центрирование по вертикали */
+	width: 60px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid #d0d0d0;
+	border-radius: 30px;
+}
+.list-pages .page-num:hover {
+	box-shadow: 3px 3px 1px #d0d0d0;
+}
+.list-pages .page-num-selected {
+	border: none;
+	color: white;
+	font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+	box-shadow: none;
+}
+
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        padding: 10px 0;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}

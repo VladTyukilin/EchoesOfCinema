@@ -1,8 +1,6 @@
-menu = [{'title': "О сайте", 'url_name': 'about'},
-        {'title': "Добавить фильм/сериал", 'url_name': 'add_page'},
-        {'title': "Обратная связь", 'url_name': 'contact'},
-        ]
+from .menu import MENU_ITEMS
 
+menu = MENU_ITEMS
 
 class DataMixin:
     paginate_by = 5

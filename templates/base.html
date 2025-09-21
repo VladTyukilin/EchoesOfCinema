@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Cinema</title>
+    <link rel="stylesheet" href="{% static 'movie/css/main.css' %}">
+</head>
+<body>
+    <!-- Меню -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="logo" href="{% url 'home' %}">Echoes of Cinema</a>
+            <ul class="nav-menu-center">
+                <li><a href="{% url 'add_movie' %}">Добавить фильм/сериал</a></li>
+                <li><a href="{% url 'about' %}">О сайте</a></li>
+                <li><a href="{% url 'contact' %}">Контакты</a></li>
+            </ul>
+            <ul class="nav-menu-right">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'users:profile' %}">Профиль</a></li>
+                    <li>
+                        <form action="{% url 'users:logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout">Выйти</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'users:login' %}">Войти</a></li>
+                    <li><a href="{% url 'users:register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block navigation %}
+        {% if page_obj.has_other_pages %}
+        <nav class="list-pages">
+            <ul>
+                {% if page_obj.has_previous %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                </li>
+                {% endif %}
+
+                {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                <li class="page-num page-num-selected">{{ p }}</li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                <li class="page-num">
+                    <a href="?page={{ p }}">{{ p }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+        {% endif %}
+    {% endblock %}
+
+    <script src="{% static 'movie/js/main.js' %}"></script>
+</body>
+</html>

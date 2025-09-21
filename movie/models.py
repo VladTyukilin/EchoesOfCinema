@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
+from unidecode import unidecode
 
 # Create your models here.
 class PublishedModel(models.Manager):
@@ -12,15 +14,16 @@ class Movie(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, db_index=True, unique=True)
-    content = models.TextField(blank=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts')
+    title = models.CharField(max_length=255, verbose_name='Название фильма')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL", blank=True, null=True)
+    content = models.TextField(blank=True, verbose_name='Короткое описание')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Жанр/Категория', blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE) ## привязка к конкретному пользователю.
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags', verbose_name="Теги")
+    poster = models.ImageField(upload_to='posters/', blank=True, null=True, verbose_name="Постер")
 
     objects = models.Manager()
     published = PublishedModel()
@@ -31,8 +34,22 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # Используем unidecode для транслитерации кириллицы
+            base_slug = slugify(unidecode(self.title))
+            slug = base_slug
+            counter = 1
+            while Movie.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+
     class Meta:
-        ordering = ['-time_create']
+        verbose_name = 'Фильм/Сериал'
+        verbose_name_plural = 'Фильмы/Сериалы'
 
 
 class Category(models.Model):
