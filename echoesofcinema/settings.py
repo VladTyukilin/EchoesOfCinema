@@ -142,8 +142,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # в официальной документации Яндекса, значения настроек для исходящих, так как мы будет отправлять письма с нашего почтового ящика
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "echoesofcinema@yandex.ru"
-EMAIL_HOST_PASSWORD = "ipkyjkygmwmzcbml"
+EMAIL_HOST_USER = "<name>@yandex.ru"
+EMAIL_HOST_PASSWORD = "<********>"
 EMAIL_USE_SSL = True
 
 # для отправки сообщений от имени приложения, необходимо добавить еще такие параметры
