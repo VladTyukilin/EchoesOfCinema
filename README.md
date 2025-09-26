@@ -76,7 +76,7 @@
 3. Укажите `DEBUG=True`
 
 ## Структура проекта
-
+```
 echoesofcinema/                 # Основной Django-проект
 ├── echoesofcinema/             # Настройки проекта
 │   ├── __init__.py
@@ -130,7 +130,7 @@ echoesofcinema/                 # Основной Django-проект
 ├── .gitignore
 ├── .dockerignore
 └── README.md
-
+```
 
 ## Статические файлы
 Для работы со статическими файлами:
