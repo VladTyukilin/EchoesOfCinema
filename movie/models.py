@@ -50,6 +50,7 @@ class Movie(models.Model):
     class Meta:
         verbose_name = 'Фильм/Сериал'
         verbose_name_plural = 'Фильмы/Сериалы'
+        ordering = ['-time_create']
 
 
 class Category(models.Model):

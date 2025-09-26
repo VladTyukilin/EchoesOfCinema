@@ -16,14 +16,6 @@ class LoginUser(LoginView):
     extra_context = {'title': 'Авторизация'}
 
 
-# class CustomLogoutView(LogoutView):
-#     def get(self, request, *args, **kwargs):
-#         return self.post(request, *args, **kwargs)
-#
-#     def get_success_url(self):
-#         return reverse_lazy('home')  # или settings.LOGOUT_REDIRECT_URL
-
-
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'users/register.html'
@@ -31,7 +23,7 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('users:login')
 
 
-# класс представления для работы с этой формой ProfileUserForm (форма для шаблона profile.html)
+# класс представления для работы с формой ProfileUserForm (форма для шаблона profile.html)
 class ProfileUser(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm

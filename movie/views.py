@@ -81,6 +81,7 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
+
 class AddMovieView(LoginRequiredMixin, DataMixin, CreateView):
     model = Movie
     form_class = AddMovieForm
