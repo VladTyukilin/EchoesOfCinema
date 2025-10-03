@@ -1,7 +1,5 @@
 from pathlib import Path
-
 from django.conf.global_settings import STATICFILES_DIRS
-
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +24,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'movie.apps.MovieConfig',
     'users.apps.UsersConfig',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -99,13 +99,10 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -133,22 +130,5 @@ LOGOUT_REDIRECT_URL = 'home'
 # from django.core.mail import send_mail
 
 # пример: send_mail("От Юзера", "Поздравляем! Тест прошёл успешно.", "root@site.com", ["you@mail.com"],)
-###EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# уже использование почтового смтп сервера
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-# набор параметров, которые необходимо дополнительно прописать для настройки SMTP-бэкенда, тем самым привязать его к нашему почтовому ящику
-# в официальной документации Яндекса, значения настроек для исходящих, так как мы будет отправлять письма с нашего почтового ящика
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "<name>@yandex.ru"
-EMAIL_HOST_PASSWORD = "<********>"
-EMAIL_USE_SSL = True
-
-# для отправки сообщений от имени приложения, необходимо добавить еще такие параметры
-# вместо EMAIL_HOST_USER можно указать любой другой E-mail адрес. Главное, чтобы эти три параметра также были прописаны
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = EMAIL_HOST_USER
-
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Category, Movie
+from .models import Movie
 
 class AddMovieForm(forms.ModelForm):
     class Meta:
