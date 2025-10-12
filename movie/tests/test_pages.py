@@ -15,7 +15,7 @@ class GetPagesTestCase(TestCase):
 
     #проверка содержимого страницы отображения поста
     def test_content_post(self):
-        expected_post = Movie.published.get(pk=1)
+        expected_post = Movie.objects.get(pk=1)
         path = reverse('post', args=[expected_post.slug])
         response = self.client.get(path)
         self.assertEqual(expected_post.content, response.context['movie'].content)

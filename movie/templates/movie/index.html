@@ -2,17 +2,26 @@
 {% load static %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
 
     <section class="hero">
-      <div class="container">
-        <h2>Добро пожаловать в Echoes of Cinema</h2>
-        <p>Отслеживайте фильмы и сериалы, которые вы хотите посмотреть.</p>
-      </div>
+        <div class="container">
+            <h1>Добро пожаловать в Echoes of Cinema</h1>
+            <h2>Добавляйте фильмы и сериалы в коллекцию!</h2>
+        </div>
+
+        <div class="search">
+            <h3>Поиск по добавленной коллекции</h3>
+            <p>Введите название:</p>
+            <form action="" method="get">
+                <input type="text" name="movie_search" placeholder="Введите фильм/сериал">
+                <input type="submit" value="Найти">
+          </form>
+        </div>
+
     </section>
 
     <div class="section">
-      <div class="container">
+        <div class="container">
         {% for movie in page_obj %}
             <div class="movie-card">
                 <div class="movie-item">
@@ -27,7 +36,7 @@
                     <div class="movie-content">
                         <h3>{{ movie.title }}</h3>
                         <p>{{ movie.content|truncatechars:100 }}</p>
-                        <a href="{% url 'post' movie.slug %}" class="btn">Подробнее</a>
+                        <a href="{{ movie.get_absolute_url }}" class="btn">Подробнее</a>
                     </div>
                 </div>
             </div>

@@ -5,26 +5,31 @@ from django.http import HttpResponse, HttpRequest
 from django.urls import reverse, reverse_lazy
 from django.template.loader import render_to_string
 from django.views import View
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
-from movie.models import Movie, PublishedModel, TagPost
+from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView, FormView
+from movie.models import Movie
 from movie.forms import AddMovieForm, UploadImageForm
-from movie.utils import DataMixin
 from django.core.paginator import Paginator
 from echoesofcinema import settings
 from requests.adapters import HTTPAdapter
 import requests
 from .menu import MENU_ITEMS
 
-
 menu = MENU_ITEMS
 
-
-class MovieHome(LoginRequiredMixin, DataMixin, ListView):
-    model = Movie
+class MovieHome(LoginRequiredMixin, ListView):
     template_name = 'movie/index.html'
     title_page = 'Главная страница'
     paginate_by = 3
-    context_object_name = 'posts'
+    context_object_name = 'movies'
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(user=self.request.user)
+
+        search_query = self.request.GET.get('movie_search')
+        if search_query:
+            queryset = queryset.filter(title__icontains=search_query)
+
+        return queryset
 
 
 def about(request):
@@ -81,8 +86,7 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-
-class AddMovieView(LoginRequiredMixin, DataMixin, CreateView):
+class AddMovieView(LoginRequiredMixin, CreateView):
     model = Movie
     form_class = AddMovieForm
     template_name = 'movie/add_movie.html'
@@ -92,12 +96,3 @@ class AddMovieView(LoginRequiredMixin, DataMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-
-class UpdatePosterView(UpdateView):
-    model = Movie
-    success_url = reverse_lazy('home')
-    extra_context = {
-        'menu': menu,
-        'title': 'Загрузка постера',
-    }

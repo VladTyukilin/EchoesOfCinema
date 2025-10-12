@@ -40,6 +40,35 @@ body::before {
     padding: 0 20px;
 }
 
+.hero {
+    display: flex;
+    justify-content: space-between; /* распределяет блоки: лево — центр — право */
+    align-items: center;            /* выравнивает по вертикали */
+    padding: 10px 20px;
+    color: white;
+}
+
+.hero h1 {
+  text-align: left;
+}
+
+.hero h2 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.search {
+    margin-left: auto;
+    text-align: center; /* ← центрирует текст и инлайн-элементы */
+}
+
+.search h3,
+.search p {
+    margin: 0;          /* убираем стандартные отступы */
+    padding: 0;         /* на всякий случай */
+}
+
 /* Меню */
 .navbar {
     background-color: var(--primary);
@@ -265,6 +294,8 @@ h1, h2, h3, h4, h5, h6 {
 .list-pages .page-num-selected:hover {
 	box-shadow: none;
 }
+
+
 
 
 /* Адаптивность для мобильных */

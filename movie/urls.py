@@ -1,7 +1,6 @@
 from django.urls import path, register_converter
 from movie import views
 
-# handler404 = page_not_found
 
 urlpatterns = [
     path('', views.MovieHome.as_view(), name='home'),

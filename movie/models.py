@@ -5,31 +5,19 @@ from django.utils.text import slugify
 from unidecode import unidecode
 
 # Create your models here.
-class PublishedModel(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_published=Movie.Status.PUBLISHED)
-
 class Movie(models.Model):
-    class Status(models.IntegerChoices):
-        DRAFT = 0, 'Черновик'
-        PUBLISHED = 1, 'Опубликовано'
-
     title = models.CharField(max_length=255, verbose_name='Название фильма')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL", blank=True, null=True)
     content = models.TextField(blank=True, verbose_name='Короткое описание')
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Жанр/Категория', blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE) ## привязка к конкретному пользователю.
-    tags = models.ManyToManyField('TagPost', blank=True, related_name='tags', verbose_name="Теги")
     poster = models.ImageField(upload_to='posters/', blank=True, null=True, verbose_name="Постер")
 
     objects = models.Manager()
-    published = PublishedModel()
 
     def get_absolute_url(self):
-        return reverse('post', kwargs={'post_slug': self.slug})
+        return reverse('post', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title
@@ -50,7 +38,7 @@ class Movie(models.Model):
     class Meta:
         verbose_name = 'Фильм/Сериал'
         verbose_name_plural = 'Фильмы/Сериалы'
-        ordering = ['-time_create']
+        ordering = ['time_create']
 
 
 class Category(models.Model):
@@ -66,18 +54,3 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})
-
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_published=Movie.Status.PUBLISHED)
-
-
-class TagPost(models.Model):
-    tag = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-
-    def __str__(self):
-        return self.tag
-
-    def get_absolute_url(self):
-        return reverse('tag', kwargs={'tag_slug': self.slug})

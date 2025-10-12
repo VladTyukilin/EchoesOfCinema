@@ -41,7 +41,7 @@ class Get_test_data_mainpage(TestCase):
         self.client.login(username='testuser', password='testpass123')
 
         # Получаем ожидаемые фильмы (первые 3 из-за paginate_by=3)
-        expected_movies = list(Movie.published.all().select_related('cat')[:3])
+        expected_movies = list(Movie.objects.all().select_related('cat')[:3])
 
         # Делаем запрос
         response = self.client.get(reverse('home'))
@@ -62,7 +62,7 @@ class Get_test_data_mainpage(TestCase):
         paginate_by = 3
         response = self.client.get(path + f'?page={page}')
 
-        all_movies = Movie.published.all().select_related('cat').order_by('-time_create')
+        all_movies = Movie.objects.all().select_related('cat').order_by('-time_create')
         expected_movies = list(all_movies[(page - 1) * paginate_by : page * paginate_by])
         actual_movies = list(response.context['page_obj'].object_list)
 

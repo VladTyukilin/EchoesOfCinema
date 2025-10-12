@@ -1,12 +1,9 @@
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from users.forms import RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
-from django.shortcuts import redirect
 from .forms import LoginUserForm
 
 
