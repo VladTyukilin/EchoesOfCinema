@@ -1,5 +1,6 @@
 from django.urls import path, register_converter
 from movie import views
+from movie.views import *
 
 
 urlpatterns = [

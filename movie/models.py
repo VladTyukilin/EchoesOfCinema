@@ -11,7 +11,7 @@ class Movie(models.Model):
     content = models.TextField(blank=True, verbose_name='Короткое описание')
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE) ## привязка к конкретному пользователю.
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, default=None) ## привязка к конкретному пользователю.
     poster = models.ImageField(upload_to='posters/', blank=True, null=True, verbose_name="Постер")
 
     objects = models.Manager()

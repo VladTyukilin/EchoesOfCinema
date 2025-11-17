@@ -2,10 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
+from django.template.defaultfilters import title, random
 from django.urls import reverse, reverse_lazy
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView, FormView
+
 from movie.models import Movie
 from movie.forms import AddMovieForm, UploadImageForm
 from django.core.paginator import Paginator
@@ -16,11 +18,17 @@ from .menu import MENU_ITEMS
 
 menu = MENU_ITEMS
 
+
 class MovieHome(LoginRequiredMixin, ListView):
     template_name = 'movie/index.html'
     title_page = 'Главная страница'
     paginate_by = 3
     context_object_name = 'movies'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        return context
 
     def get_queryset(self):
         queryset = Movie.objects.filter(user=self.request.user)
@@ -51,6 +59,7 @@ def contact(request):
 
     context = {'title': pochta, 'mainmenu': menu}
     return render(request, 'movie/contact.html', context=context)
+
 
 class Show_post(DetailView):
     model = Movie
