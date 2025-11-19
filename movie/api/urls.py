@@ -9,9 +9,9 @@ router.register(r'movies', MovieViewSet, basename='movie')
 
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
-    path('api/v1/auth/', include('rest_framework.urls')),
-    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('', include(router.urls)),
+    path('auth/', include('rest_framework.urls')),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]

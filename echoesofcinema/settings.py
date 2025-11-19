@@ -3,6 +3,7 @@ from django.conf.global_settings import STATICFILES_DIRS
 import os
 from datetime import timedelta
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('movie.urls')),
     path('users/', include('users.urls', namespace='users')),
-    path('api/', include('movie.api.urls')),
+    path('api/v1/', include('movie.api.urls')),
 ]
 
 
