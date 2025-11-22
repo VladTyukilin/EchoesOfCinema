@@ -1,16 +1,6 @@
 import pytest
-from movie.api.tests.test_api import client, user
 from movie.models import Movie
 from django.contrib.auth.models import User
-
-@pytest.fixture
-def authenticated_client(user, client):
-    client.force_authenticate(user=user)
-    return client
-
-@pytest.fixture
-def unauthenticated_client(client):
-    return client
 
 @pytest.mark.django_db
 def test_movie_permissions(client, user, admin_user):
