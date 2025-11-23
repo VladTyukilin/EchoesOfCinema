@@ -201,7 +201,7 @@ OpenAPI схема
 echoesofcinema/                 # Основной Django-проект
 
 ├── .github/                      
-│   ├── workflows
+│   └──workflows
 │       └── django-tests.yml
 │
 ├── echoesofcinema/             # Настройки проекта
@@ -299,11 +299,7 @@ echoesofcinema/                 # Основной Django-проект
 ```
 
 ## Статические файлы
+
 Для работы со статическими файлами:
 1. Убедитесь, что STATIC_ROOT настроен в settings.py
 2. Соберите статику: `python manage.py collectstatic`
-
-## Тестирование
-```bash
-python manage.py test movie
-```
