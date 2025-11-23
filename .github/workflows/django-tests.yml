@@ -8,17 +8,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      sqlite:
-        image: nouchka/sqlite3
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="exit 0"
-          --health-interval=5s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
