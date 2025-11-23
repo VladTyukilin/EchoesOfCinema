@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -111,7 +112,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 
@@ -183,6 +185,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'EchoesOfCinema API',
+    'DESCRIPTION': 'Документация API для проекта EchoesOfCinema.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 # консольный почтовый бэкенд
 # для задач тестирования приложения настроим Django на отправку писем в консоль
