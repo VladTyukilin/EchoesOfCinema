@@ -7,19 +7,140 @@
 ![Страница добавления фильма](screenshots/post.png)
 
 ## Описание
-Сайт для отслеживания просмотренных и запланированных к просмотру фильмов и сериалов.
+📽 EchoesOfCinema — API для каталога фильмов
 
-## Функционал
-- Регистрация, аутентификация и авторизация пользователей
-- Восстановление пароля
-- Добавление фильма/сериала
-- Добавление постеров
-- Пагинация страниц
+EchoesOfCinema — это учебно-практический проект на Django, который стараюсь дорабатывать до backend с REST API, аутентификацией JWT, Swagger документацией, тестами и CI/CD через GitHub Actions.
+Проект демонстрирует навыки разработки серверного API на Django Rest Framework, работу с пользователями, CRUD-операции, пагинацию, авторизацию и тестирование.
 
-## Технологии
-- Python 3.11
-- Django 5.2
-- HTML/CSS
+## 🚀 Функционал
+
+🎬 API фильмов
+
+- Получение списка фильмов
+- Пагинация
+- Просмотр одного фильма
+- Создание, редактирование, удаление (для авторизованных пользователей)
+- Управление slug
+- Защита:
+   🔓 аноним — только чтение
+   🔐 владелец — CRUD
+   🛡 админ — полный доступ
+
+🔐 Авторизация
+- JWT токены:
+    - /api/v1/token/
+    - /api/v1/token/refresh/
+    - /api/v1/token/verify/
+
+📄 Swagger / OpenAPI документация
+Полностью автогенерируемая схема:
+    Swagger UI:
+      - /api/v1/docs/
+    OpenAPI схема (yaml):
+      - /api/v1/schema/
+
+🧪 Тестирование (pytest + DRF APIClient)
+Покрыто:
+- получение фильмов
+- подробный просмотр
+- авторизация
+- создание/редактирование
+- удаление
+- slug-валидация
+- проверки прав доступа
+
+🔄 CI/CD
+GitHub Actions автоматически:
+   1. устанавливает зависимости
+   2. запускает Django
+   3. выполняет миграции
+   4. запускает pytest
+
+Файл workflow лежит в .github/workflows/tests.yml
+
+## 🧱 Технологии
+- Python 3.12
+- Django 5
+- Django REST Framework
+- SimpleJWT
+- drf-spectacular (Swagger)
+- pytest
+- GitHub Actions
+- SQLite (dev)
+
+## 📌 API Эндпоинты
+🎬 Movies API
+
+Метод	URL	                    Доступ	            Описание
+GET	    /api/v1/movies/	        Все	                Список фильмов (пагинация)
+POST	/api/v1/movies/	        Авторизованные	    Создать фильм
+GET	    /api/v1/movies/<id>/	Все	                Детальный просмотр
+PUT	    /api/v1/movies/<id>/	Владелец / админ	Обновить фильм
+DELETE	/api/v1/movies/<id>/	Владелец / админ	Удалить фильм
+
+## 🔐 Авторизация (JWT)
+Получение токена
+POST /api/v1/token/ {"username": "user", "password": "pass"}
+
+Обновление токена
+POST /api/v1/token/refresh/
+
+Проверка токена
+POST /api/v1/token/verify/
+
+## 🧪 Тестирование
+Запустить тесты:
+
+pytest -v
+
+Основные группы тестов:
+
+- CRUD фильмов
+- JWT авторизация
+- Доступы (владелец / админ / аноним)
+- Пагинация
+- Валидация
+- Unique slug
+
+## 🔄 CI/CD (GitHub Actions)
+
+В проект включён workflow, который запускается при каждом пуше:
+
+name: Django Tests
+runs-on: ubuntu-latest
+steps:
+  - uses: actions/checkout@v3
+  - uses: actions/setup-python@v4
+    with:
+      python-version: 3.12
+  - run: pip install -r requirements.txt
+  - run: python manage.py migrate
+  - run: pytest
+
+## 📘 API документация (Swagger)
+
+После установки drf-spectacular доступно:
+
+Swagger UI
+
+🔗 http://127.0.0.1:8000/api/v1/docs/
+
+OpenAPI схема
+
+🔗 http://127.0.0.1:8000/api/v1/schema/
+
+Документация генерируется автоматически.
+
+## 🗺 Roadmap
+
+🚀 В планах:
+
+- Фильтрация фильмов по жанрам, тегам, году
+- Рейтинг фильмов
+- Комментарии
+- Deploy на Render / Railway / Docker Hub
+- Перевод API на FastAPI
+
 
 ## Запуск проекта
 1. Создайте виртуальное окружение: `python -m venv .venv`
@@ -75,16 +196,71 @@
 
 3. Укажите `DEBUG=True`
 
-## Структура проекта
+## 📂 Структура проекта
 ```
 echoesofcinema/                 # Основной Django-проект
+
+├── .github/                      
+│   ├── workflows
+│       └── django-tests.yml
+│
 ├── echoesofcinema/             # Настройки проекта
 │   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py
 │   ├── asgi.py
 │   └── wsgi.py
+│
+├── htmlcov/  
+│
+├── media/                      # Загруженные файлы (постеры)
+│   └── posters/
+│
 ├── movie/                      # Приложение: управление фильмами и сериалами
+│   ├── api/
+│   │   ├── tests/
+│   │   │   ├── permissions.py
+│   │   │   ├── serializers.py
+│   │   │   ├── urls.py
+│   │   │   ├── views.py
+│   │   │   └── __init__.py
+│   │   ├── permissions.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── __init__.py
+│   │
+│   ├── fixtures/               # Фикстуры для тестов
+│   │   ├── movie_movie.json
+│   │   └──  auth_user.json
+│   │
+│   ├── migrations/               
+│   │
+│   ├── static/                 # Статические файлы (CSS, JS, изображения)
+│   │   └── movie/           
+│   │       ├── css/
+│   │       ├── js/
+│   │       └── img/
+│   │   
+│   ├── templates/              # HTML-шаблоны
+│   │   └── movie/        
+│   │       ├── index.html
+│   │       ├── post.html
+│   │       ├── add_movie.html
+│   │       ├── about.html
+│   │       ├── contact.html
+│   │       ├── list_categories.html
+│   │       ├── list_tags.html
+│   │       └── success.html
+│   │
+│   ├── tests/                  # Статические файлы (CSS, JS, изображения)
+│   │   ├── __init__.py
+│   │   ├── test_mainpage.py
+│   │   ├── test_models.py
+│   │   ├── test_pages.py
+│   │   ├── test_register_user.py
+│   │   └── test_views.py
+│   │
 │   ├── __init__.py
 │   ├── models.py               # Модели данных
 │   ├── views.py                # Представления
@@ -93,43 +269,33 @@ echoesofcinema/                 # Основной Django-проект
 │   ├── admin.py                # Админка
 │   ├── apps.py
 │   ├── utils.py
-│   ├── menu.py
-│   ├── templatetags/           # Кастомные шаблонные теги
-│   │   └── movie_tags.py
-│   ├── templates/movie/        # HTML-шаблоны
-│   │   ├── index.html
-│   │   ├── post.html
-│   │   ├── add_movie.html
-│   │   ├── about.html
-│   │   ├── contact.html
-│   │   ├── list_categories.html
-│   │   ├── list_tags.html
-│   │   └── success.html
-│   ├── static/movie/           # Статические файлы (CSS, JS, изображения)
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── img/
-│   └── fixtures/               # Фикстуры для тестов
-│       ├── movie_movie.json
-│       ├── movie_category.json
-│       ├── auth_user.json
-│       └── ...
+│   └── menu.py
+│
+├── petvenv/
+│
+├── screenshots/
+│
+├── templates/
+│   └── base.html
+│       
 ├── users/                      # Приложение: регистрация и аутентификация
 │   ├── __init__.py
 │   ├── views.py
 │   ├── urls.py
 │   ├── forms.py
 │   └── templates/              # Шаблоны пользовательских страниц
-├── media/                      # Загруженные файлы (постеры)
-│   └── posters/
-├── manage.py
-├── requirements.txt            # Зависимости Python
-├── Dockerfile                  # Конфигурация Docker-образа
-├── docker-compose.yml          # Запуск через Docker Compose
+│ 
+├── .coverage
+├── .dockerignore
 ├── .env.example                # Пример файла окружения
 ├── .gitignore
-├── .dockerignore
-└── README.md
+├── db.sqlite3
+├── docker-compose.yml          # Запуск через Docker Compose
+├── Dockerfile                  # Конфигурация Docker-образа
+├── manage.py
+├── pytest.ini
+├── README.md
+└── requirements.txt            # Зависимости Python
 ```
 
 ## Статические файлы
